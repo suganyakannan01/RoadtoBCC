@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 RoadtoBCC - Scholarship Prep</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .countdown {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            padding: 30px;
+        }
+        .sidebar { background: #f8f9fa; padding: 20px; border-radius: 15px; }
+        .progress-ladder { margin-top: 20px; }
+        .ladder-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 5px solid #ccc;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .ladder-item.active { border-left-color: #667eea; background: #f0f3ff; transform: translateX(10px); }
+        .ladder-item.completed { border-left-color: #28a745; background: #f0fff4; }
+        .ladder-title { font-weight: bold; font-size: 1.1em; color: #333; }
+        .ladder-progress { font-size: 0.9em; color: #666; margin-top: 5px; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 5px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .center-panel { background: #f8f9fa; padding: 30px; border-radius: 15px; }
+        .tab-buttons { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+        .content-area { display: none; max-height: 700px; overflow-y: auto; }
+        .content-area.active { display: block; }
+        .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #667eea; }
+        .question-text { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #333; }
+        .passage { background: #f0f0f0; padding: 15px; margin: 10px 0; border-left: 4px solid #667eea; font-size: 0.95em; line-height: 1.8; }
+        .visual-box { background: #fff3cd; padding: 15px; margin: 10px 0; border-left: 4px solid #ff9800; text-align: center; }
+        .visual-box svg { max-width: 100%; height: auto; }
+        .hint-box { background: #e7f3ff; padding: 15px; margin: 15px 0; border-left: 4px solid #2196F3; border-radius: 5px; font-style: italic; color: #1565c0; display: none; }
+        .hint-box.show { display: block; }
+        .options { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .option {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            font-weight: 500;
+            text-align: left;
+            width: 100%;
+        }
+        .option:hover { border-color: #667eea; background: #f0f3ff; }
+        .option.selected { background: #667eea; color: white; border-color: #667eea; }
+        .option.correct { background: #28a745; color: white; border-color: #28a745; }
+        .option.incorrect { background: #dc3545; color: white; border-color: #dc3545; }
+        .explanation-box { background: #f5f5f5; padding: 15px; margin: 15px 0; border-left: 4px solid #ff9800; border-radius: 5px; }
+        .explanation-title { font-weight: bold; color: #d97706; margin-bottom: 8px; }
+        .explanation-text { color: #333; line-height: 1.6; }
+        .coupon { background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); padding: 10px; margin: 10px 0; border-radius: 8px; color: white; font-weight: bold; text-align: center; }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4); }
+        .btn-hint {
+            padding: 8px 16px;
+            background: #2196F3;
+            color: white;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .btn-hint:hover { background: #1976D2; }
+        .timer {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            background: #f0f3ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .timer.warning { color: #ff9800; }
+        .timer.danger { color: #dc3545; }
+        .review-container { margin: 20px 0; }
+        .score-summary { background: #f0f3ff; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+        .score-number { font-size: 2em; font-weight: bold; color: #667eea; }
+        .review-question { background: white; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #667eea; }
+        .review-q-text { font-weight: 600; margin-bottom: 10px; }
+        .review-answer { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .correct-answer { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .your-answer { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; margin-top: 8px; }
+        .home-levels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .level-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+        .level-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .level-card.completed { border-color: #28a745; background: #f0fff4; }
+        .level-emoji { font-size: 3em; margin: 10px 0; }
+        .level-name { font-size: 1.3em; font-weight: bold; color: #333; margin: 10px 0; }
+        .level-requirement { font-size: 0.9em; color: #666; }
+        .level-reward { font-size: 0.85em; color: #28a745; font-weight: bold; margin-top: 10px; }
+
+        /* Vocabulary Styles */
+        .vocab-word-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .vocab-word { font-size: 1.5em; font-weight: bold; color: #667eea; margin-bottom: 10px; }
+        .vocab-meaning { font-size: 0.95em; color: #333; margin: 10px 0; }
+        .vocab-usage { font-size: 0.9em; color: #666; font-style: italic; margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+        .btn-pronounce {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .btn-pronounce:hover { background: #45a049; }
+
+        /* Essay Styles */
+        .form-group {
+            margin: 20px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        .form-group textarea:focus,
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Feedback Styles */
+        .feedback-box {
+            background: #f0f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        .feedback-section {
+            margin: 15px 0;
+        }
+        .feedback-section-title {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        .feedback-item {
+            margin: 8px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #2196F3;
+        }
+
+        /* Quiz Styles */
+        .quiz-question { font-size: 1.2em; font-weight: 600; margin: 20px 0; }
+        .quiz-audio-btn {
+            background: #FF9800;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 0;
+        }
+        .quiz-audio-btn:hover { background: #F57C00; }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .quiz-option {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+        }
+        .quiz-option:hover { border-color: #2196F3; background: #f0f3ff; }
+        .quiz-option.selected { background: #2196F3; color: white; border-color: #2196F3; }
+        .quiz-option.correct { background: #28a745; color: white; border-color: #28a745; }
+        .quiz-option.incorrect { background: #dc3545; color: white; border-color: #dc3545; }
+
+        @media (max-width: 900px) {
+            .main-content { grid-template-columns: 1fr; }
+            .tab-btn { font-size: 0.8em; padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 RoadtoBCC</h1>
+            <p>Year 5 Scholarship Exam Preparation</p>
+            <div class="countdown">
+                📅 <span id="daysLeft">59</span> days until exam day (18 October 2026)
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Sidebar -->
+            <div class="sidebar">
+                <h3>📊 Progress</h3>
+
+                <div style="background: white; padding: 15px; border-radius: 10px;">
+                    <p><strong>Tests Completed:</strong> <span id="testsCompleted">0</span></p>
+                    <p><strong>Coupons Earned:</strong> <span id="couponsCount">0</span></p>
+                    <p><strong>Current Level:</strong> <span id="currentLevel">Beginner</span></p>
+                    <p><strong>Average Score:</strong> <span id="avgScore">0</span>%</p>
+                </div>
+
+                <div class="progress-ladder">
+                    <h4>🏆 Progress Ladder</h4>
+                    <div class="ladder-item" id="level1">
+                        <div class="ladder-title">🥉 BRONZE</div>
+                        <div class="ladder-progress">Earn 10 coupons</div>
+                        <div class="progress-bar"><div class="progress-fill" id="level1-fill" style="width: 0%"></div></div>
+                    </div>
+                    <div class="ladder-item" id="level2">
+                        <div class="ladder-title">🥈 SILVER</div>
+                        <div class="ladder-progress">Earn 25 coupons</div>
+                        <div class="progress-bar"><div class="progress-fill" id="level2-fill" style="width: 0%"></div></div>
+                    </div>
+                    <div class="ladder-item" id="level3">
+                        <div class="ladder-title">🥇 GOLD</div>
+                        <div class="ladder-progress">Earn 35 coupons</div>
+                        <div class="progress-bar"><div class="progress-fill" id="level3-fill" style="width: 0%"></div></div>
+                    </div>
+                    <div class="ladder-item" id="level4">
+                        <div class="ladder-title">💎 PLATINUM</div>
+                        <div class="ladder-progress">Earn 50 coupons</div>
+                        <div class="progress-bar"><div class="progress-fill" id="level4-fill" style="width: 0%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel -->
+            <div class="center-panel">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab(event, 'home')">🏠 Home</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'dailyTest')">📝 Daily Test</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'vocabulary')">📚 Vocabulary</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'writing')">✍️ Writing</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'testHistory')">📊 History</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'coupons')">🎁 Coupons</button>
+                </div>
+
+                <!-- HOME TAB -->
+                <div id="home" class="content-area active">
+                    <h2>Welcome Saish! 🎓</h2>
+                    <p style="margin: 15px 0; font-size: 1.1em; color: #555;">Your scholarship exam preparation journey is about to begin. Here are the 4 levels you need to complete by earning coupons:</p>
+
+                    <div class="home-levels">
+                        <div class="level-card">
+                            <div class="level-emoji">🥉</div>
+                            <div class="level-name">BRONZE</div>
+                            <div class="level-requirement">Earn 10 Coupons</div>
+                            <div class="level-reward">🎁 Reward #1</div>
+                        </div>
+                        <div class="level-card">
+                            <div class="level-emoji">🥈</div>
+                            <div class="level-name">SILVER</div>
+                            <div class="level-requirement">Earn 25 Coupons (15 more)</div>
+                            <div class="level-reward">🎁 Reward #2</div>
+                        </div>
+                        <div class="level-card">
+                            <div class="level-emoji">🥇</div>
+                            <div class="level-name">GOLD</div>
+                            <div class="level-requirement">Earn 35 Coupons (10 more)</div>
+                            <div class="level-reward">🎁 Reward #3</div>
+                        </div>
+                        <div class="level-card">
+                            <div class="level-emoji">💎</div>
+                            <div class="level-name">PLATINUM</div>
+                            <div class="level-requirement">Earn 50 Coupons (15 more)</div>
+                            <div class="level-reward">🎁 Reward #4 + Trophy!</div>
+                        </div>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin-top: 30px; border-left: 4px solid #2196F3;">
+                        <h3>📌 How to Earn Coupons</h3>
+                        <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li>✅ <strong>1 coupon per test:</strong> Complete each daily test to earn 1 coupon</li>
+                            <li>✅ <strong>1 coupon per 3 vocabulary days:</strong> Practice vocabulary for 3 consecutive days to earn 1 coupon</li>
+                            <li>✅ <strong>45 minutes per test:</strong> You have 45 minutes to complete each test</li>
+                            <li>✅ <strong>5 words per day:</strong> Learn meanings, usage, and practice spelling</li>
+                            <li>✅ <strong>Instant feedback:</strong> Get detailed explanations on your answers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- DAILY TEST TAB -->
+                <div id="dailyTest" class="content-area">
+                    <button onclick="startDailyTest()" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1em;">▶ Start Today's Test</button>
+                    <div id="testContent"></div>
+                </div>
+
+                <!-- VOCABULARY TAB -->
+                <div id="vocabulary" class="content-area">
+                    <h2>📚 Daily Vocabulary Practice</h2>
+                    <p style="margin: 15px 0; color: #666;">Learn 5 new words each day. Practice pronunciation and spelling to earn coupons!</p>
+                    <div id="vocabContent"></div>
+                </div>
+
+                <!-- WRITING TAB -->
+                <div id="writing" class="content-area">
+                    <h2>✍️ Writing Practice</h2>
+                    <p style="margin: 15px 0; color: #666;">Submit your essays and get AI-powered feedback on grammar, structure, and content.</p>
+                    <div id="writingContent"></div>
+                </div>
+
+                <!-- TEST HISTORY TAB -->
+                <div id="testHistory" class="content-area">
+                    <h2>📊 Test History</h2>
+                    <div id="historyContent"></div>
+                </div>
+
+                <!-- COUPONS TAB -->
+                <div id="coupons" class="content-area">
+                    <h2>🎁 Your Earned Coupons</h2>
+                    <div id="couponsDisplay"></div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar (Coupons Display) -->
+            <div class="sidebar">
+                <h3>🎁 Earned Coupons</h3>
+                <div id="couponsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let appState = {
+            studentName: 'Saish',
+            testsCompleted: parseInt(localStorage.getItem('testsCompleted') || '0'),
+            couponsEarned: parseInt(localStorage.getItem('couponsEarned') || '0'),
+            currentTest: [],
+            selectedAnswers: {},
+            coupons: JSON.parse(localStorage.getItem('coupons') || '[]'),
+            testScores: JSON.parse(localStorage.getItem('testScores') || '[]'),
+            vocabularyDates: JSON.parse(localStorage.getItem('vocabularyDates') || '[]'),
+            questionBank: {},
+            hintsUsed: {}
+        };
+
+        let timerInterval = null;
+        let currentVocabQuizIndex = 0;
+
+        // Vocabulary Bank - 5 words per day
+        // Progressive Vocabulary Bank - Grade 3-5 Level
+        const allVocabularyWords = [
+            // Easy words (Day 1-20) - Good for essays, commonly used
+            { word: "Beautiful", meaning: "Very pleasing to look at; attractive", usage: "The sunset was beautiful with orange and pink colors.", level: 1 },
+            { word: "Wonderful", meaning: "Very good; amazing", usage: "We had a wonderful time at the beach.", level: 1 },
+            { word: "Curious", meaning: "Wanting to know or learn something", usage: "The curious puppy explored every corner of the house.", level: 1 },
+            { word: "Brave", meaning: "Having courage; not afraid", usage: "The brave firefighter ran into the burning building.", level: 1 },
+            { word: "Gentle", meaning: "Soft and kind; not rough", usage: "She spoke in a gentle voice to calm the scared child.", level: 1 },
+            { word: "Honest", meaning: "Truthful; not lying", usage: "An honest person always tells the truth.", level: 1 },
+            { word: "Cheerful", meaning: "Happy and bright", usage: "Her cheerful smile made everyone smile too.", level: 1 },
+            { word: "Peaceful", meaning: "Calm and quiet; no fighting", usage: "The peaceful garden was perfect for reading.", level: 1 },
+            { word: "Grateful", meaning: "Thankful; appreciative", usage: "She was grateful for her friends' help.", level: 1 },
+            { word: "Clever", meaning: "Smart; quick to learn", usage: "The clever student solved the puzzle quickly.", level: 1 },
+            { word: "Eager", meaning: "Wanting something very much", usage: "The eager students raised their hands to answer.", level: 1 },
+            { word: "Humble", meaning: "Not proud; modest", usage: "Despite winning, she remained humble and kind.", level: 1 },
+            { word: "Joyful", meaning: "Full of happiness and delight", usage: "The joyful children laughed and played together.", level: 1 },
+            { word: "Loyal", meaning: "Faithful; staying with someone", usage: "A loyal friend sticks by you always.", level: 1 },
+            { word: "Patient", meaning: "Able to wait calmly; not rushing", usage: "A patient teacher explains things many times.", level: 1 },
+            { word: "Silly", meaning: "Funny in a goofy way", usage: "The silly clown made the children laugh.", level: 1 },
+            { word: "Strong", meaning: "Powerful; having great strength", usage: "The strong athlete lifted heavy weights.", level: 1 },
+            { word: "Talented", meaning: "Having a natural skill or ability", usage: "The talented dancer moved beautifully.", level: 1 },
+            { word: "Unique", meaning: "One of a kind; different from others", usage: "Every person has a unique fingerprint.", level: 1 },
+            { word: "Vivid", meaning: "Bright and striking; colorful", usage: "The vivid painting had many bright colors.", level: 1 },
+
+            // Medium words (Day 21-50) - More challenging, useful in essays
+            { word: "Abundant", meaning: "Existing or available in large quantities", usage: "The garden had abundant flowers blooming in spring.", level: 2 },
+            { word: "Ambitious", meaning: "Having a strong desire to succeed", usage: "The ambitious student studied hard for the exam.", level: 2 },
+            { word: "Brilliant", meaning: "Shining brightly; very intelligent", usage: "The brilliant light from the sun warmed the earth.", level: 2 },
+            { word: "Capable", meaning: "Able to do something well", usage: "She is a capable leader who organizes well.", level: 2 },
+            { word: "Determined", meaning: "Firmly decided; not giving up", usage: "The determined runner finished the race despite pain.", level: 2 },
+            { word: "Diligent", meaning: "Careful and thorough in work", usage: "A diligent student completes all homework on time.", level: 2 },
+            { word: "Efficient", meaning: "Working in a well-organized way", usage: "The efficient system saved time and energy.", level: 2 },
+            { word: "Elegant", meaning: "Graceful and stylish", usage: "She wore an elegant dress to the party.", level: 2 },
+            { word: "Energetic", meaning: "Full of energy and enthusiasm", usage: "The energetic child ran around the playground.", level: 2 },
+            { word: "Fabulous", meaning: "Extremely good; wonderful", usage: "We had a fabulous vacation in the mountains.", level: 2 },
+            { word: "Generous", meaning: "Willing to give; not selfish", usage: "The generous man donated money to the charity.", level: 2 },
+            { word: "Graceful", meaning: "Moving smoothly and beautifully", usage: "The graceful dancer performed with elegance.", level: 2 },
+            { word: "Heroic", meaning: "Showing great bravery", usage: "The heroic rescue saved the drowning boy.", level: 2 },
+            { word: "Imaginary", meaning: "Existing only in the mind; not real", usage: "The imaginary friend lived in the child's imagination.", level: 2 },
+            { word: "Innocent", meaning: "Not guilty; pure and harmless", usage: "The innocent puppy didn't know it had done wrong.", level: 2 },
+            { word: "Keen", meaning: "Eager; having a strong interest", usage: "She has a keen interest in science and nature.", level: 2 },
+            { word: "Legendary", meaning: "Famous from stories and history", usage: "The legendary hero's stories are told to this day.", level: 2 },
+            { word: "Magnificent", meaning: "Grand and impressive", usage: "The magnificent castle stood tall on the hill.", level: 2 },
+            { word: "Nurturing", meaning: "Caring and helping to grow", usage: "A nurturing parent supports their child's dreams.", level: 2 },
+            { word: "Outstanding", meaning: "Exceptionally good; very noticeable", usage: "She gave an outstanding performance in the play.", level: 2 },
+            { word: "Playful", meaning: "Full of fun and games", usage: "The playful kitten pounced on the toy.", level: 2 },
+            { word: "Pristine", meaning: "In perfect condition; very clean", usage: "The pristine beach had no litter or pollution.", level: 2 },
+            { word: "Radiant", meaning: "Shining brightly with joy", usage: "The radiant bride smiled throughout the ceremony.", level: 2 },
+            { word: "Remarkable", meaning: "Worthy of attention; unusual", usage: "The remarkable discovery changed science forever.", level: 2 },
+            { word: "Resilient", meaning: "Able to bounce back from difficulty", usage: "The resilient player recovered from her injury.", level: 2 },
+            { word: "Serene", meaning: "Calm and peaceful", usage: "The serene lake reflected the mountains perfectly.", level: 2 },
+            { word: "Sincere", meaning: "Honest and genuine in feelings", usage: "He gave a sincere apology for his mistake.", level: 2 },
+            { word: "Splendid", meaning: "Magnificent; very impressive", usage: "The splendid fireworks lit up the night sky.", level: 2 },
+            { word: "Steadfast", meaning: "Loyal and firm in belief", usage: "She was steadfast in her commitment to the goal.", level: 2 },
+            { word: "Thoughtful", meaning: "Considerate of others' feelings", usage: "It was thoughtful of him to bring flowers.", level: 2 },
+
+            // Advanced words (Day 51-80) - Higher level, essay enrichment
+            { word: "Adversity", meaning: "Difficult or unfortunate situation", usage: "She overcame adversity to become successful.", level: 3 },
+            { word: "Benevolent", meaning: "Kind and generous in nature", usage: "The benevolent donation helped the poor community.", level: 3 },
+            { word: "Commemorate", meaning: "To honor or remember something", usage: "We commemorate important historical events each year.", level: 3 },
+            { word: "Diligence", meaning: "Careful and persistent effort", usage: "Success comes from diligence and hard work.", level: 3 },
+            { word: "Eloquent", meaning: "Expressive and persuasive speech", usage: "The eloquent speaker moved the audience to tears.", level: 3 },
+            { word: "Ephemeral", meaning: "Lasting only a short time", usage: "The beauty of flowers is ephemeral and brief.", level: 3 },
+            { word: "Exemplary", meaning: "Worthy of being copied; excellent", usage: "His exemplary behavior set a good example.", level: 3 },
+            { word: "Fortitude", meaning: "Courage and strength in face of pain", usage: "She showed great fortitude during the illness.", level: 3 },
+            { word: "Gregarious", meaning: "Enjoying the company of others", usage: "Humans are gregarious and social creatures.", level: 3 },
+            { word: "Harbinger", meaning: "A sign that something is coming", usage: "Dark clouds are a harbinger of a storm.", level: 3 },
+            { word: "Illustrious", meaning: "Very famous and respected", usage: "The illustrious artist's work is known worldwide.", level: 3 },
+            { word: "Impeccable", meaning: "Flawless; without mistakes", usage: "His impeccable manners impressed everyone.", level: 3 },
+            { word: "Indomitable", meaning: "Impossible to defeat; unbeatable", usage: "Her indomitable spirit never gave up.", level: 3 },
+            { word: "Inherent", meaning: "Naturally existing as part of something", usage: "Kindness is an inherent quality of her character.", level: 3 },
+            { word: "Insightful", meaning: "Showing deep understanding", usage: "The insightful teacher explained the concept clearly.", level: 3 },
+            { word: "Integrity", meaning: "Honesty and strong moral principles", usage: "A person of integrity always tells the truth.", level: 3 },
+            { word: "Luminous", meaning: "Shining brightly; glowing", usage: "The luminous moon lit the dark pathway.", level: 3 },
+            { word: "Meticulous", meaning: "Very careful and precise", usage: "She was meticulous in her attention to detail.", level: 3 },
+            { word: "Momentous", meaning: "Very important; significant", usage: "Graduation is a momentous occasion in life.", level: 3 },
+            { word: "Nascent", meaning: "Just beginning to develop", usage: "The nascent friendship grew into a strong bond.", level: 3 },
+            { word: "Obsolete", meaning: "No longer in use; outdated", usage: "Typewriters are obsolete in the digital age.", level: 3 },
+            { word: "Persevere", meaning: "To continue despite difficulty", usage: "She had to persevere to achieve her dreams.", level: 3 },
+            { word: "Pragmatic", meaning: "Practical and realistic", usage: "A pragmatic approach solves problems efficiently.", level: 3 },
+            { word: "Profound", meaning: "Very deep and meaningful", usage: "The profound wisdom of the teacher inspired all.", level: 3 },
+            { word: "Prolific", meaning: "Producing much work or results", usage: "The prolific author wrote many bestselling books.", level: 3 },
+            { word: "Propitious", meaning: "Favorable; giving good signs", usage: "The propitious weather was perfect for the event.", level: 3 },
+            { word: "Prudent", meaning: "Careful and wise in decisions", usage: "It is prudent to save money for emergencies.", level: 3 },
+            { word: "Quintessential", meaning: "Perfect example of something", usage: "She is the quintessential student leader.", level: 3 },
+            { word: "Resilience", meaning: "Ability to recover from difficulty", usage: "The team showed resilience after losing games.", level: 3 },
+            { word: "Serendipity", meaning: "Finding good things by chance", usage: "It was pure serendipity that we met.", level: 3 }
+        ];
+
+        // Function to get daily vocabulary (changes each day)
+        function getDailyVocabulary() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const startIndex = (dayOfYear * 5) % allVocabularyWords.length;
+
+            let dailyWords = [];
+            for (let i = 0; i < 5; i++) {
+                dailyWords.push(allVocabularyWords[(startIndex + i) % allVocabularyWords.length]);
+            }
+            return dailyWords;
+        }
+
+        let todaysVocabulary = getDailyVocabulary();
+
+        // Question Bank
+        const questionBank = {
+            math: [
+                { q: "Which of these numbers can be divided by 7 leaving no remainder?", opts: ["17", "29", "35", "38"], ans: "35", hint: "<strong>HINT:</strong> Check each number", explanation: "✅ Correct: 35" },
+                { q: "The numbers in each column follow a pattern. What number should replace the ?", opts: ["27", "29", "31", "33"], ans: "29", hint: "<strong>HINT:</strong> Look for patterns in each column", explanation: "✅ Correct: 29" },
+                { q: "Sonya multiplies a number by 6 and adds 3 to get 45. What is the number?", opts: ["6", "7", "8", "9"], ans: "7", hint: "<strong>HINT:</strong> Work backwards from 45", explanation: "✅ Correct: 7" },
+                { q: "How many lines of symmetry does a five-pointed star have?", opts: ["3", "5", "7", "10"], ans: "5", hint: "<strong>HINT:</strong> Count lines through the center", explanation: "✅ Correct: 5" },
+                { q: "Which number is closest to 23,302?", opts: ["23,319", "23,320", "23,230", "23,299"], ans: "23,299", hint: "<strong>HINT:</strong> Find the smallest distance", explanation: "✅ Correct: 23,299" }
+            ],
+            reading: [
+                { q: "Which word is NOT similar in meaning to the other three?", passage: "Hyponome was unusual and mythical.", opts: ["unusual", "mythical", "legendary", "imaginary"], ans: "unusual", hint: "<strong>HINT:</strong> What does each word mean?", explanation: "✅ Correct: UNUSUAL" },
+                { q: "What does Emily find amazing?", passage: "Emily thinks her sister Kate is amazing.", opts: ["That Kate rides horses", "How Kate imagines herself", "That Kate lives far away", "How fast Kate runs"], ans: "How Kate imagines herself", hint: "<strong>HINT:</strong> Read carefully", explanation: "✅ Correct: How Kate imagines herself" },
+                { q: "Why is Kate clicking her tongue?", passage: "Hyponome rushed in, clicking her tongue to accompany her hooves.", opts: ["She is waking Emily", "She is making horse sounds", "She is calling for help", "She is showing travel"], ans: "She is making horse sounds", hint: "<strong>HINT:</strong> What sound goes with hooves?", explanation: "✅ Correct: She is making horse sounds" }
+            ],
+            reasoning: [
+                { q: "Which word does not belong?", opts: ["herd", "swarm", "sheep", "mob", "flock"], ans: "sheep", hint: "<strong>HINT:</strong> Group nouns vs individual animals", explanation: "✅ Correct Answer: SHEEP" },
+                { q: "Which letter is different?", opts: ["O", "E", "H", "T", "N"], ans: "T", hint: "<strong>HINT:</strong> Test for symmetry", explanation: "✅ Correct Answer: T" },
+                { q: "Pattern: A B C 4 5 F G H 9 10 ?", opts: ["12", "K", "L", "M"], ans: "L", hint: "<strong>HINT:</strong> Find the pattern", explanation: "✅ Correct Answer: L" },
+                { q: "Which does NOT belong with entertainment?", opts: ["play", "concert", "cinema", "vacation"], ans: "vacation", hint: "<strong>HINT:</strong> Categorize each", explanation: "✅ Correct Answer: VACATION" }
+            ]
+        };
+
+        function switchTab(e, tab) {
+            e.preventDefault();
+            document.querySelectorAll('.content-area').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            if (e.target) e.target.classList.add('active');
+            updateCouponsDisplay();
+            if (tab === 'testHistory') {
+                updateTestHistory();
+            } else if (tab === 'vocabulary') {
+                loadVocabularyPractice();
+            } else if (tab === 'writing') {
+                loadWritingPractice();
+            }
+        }
+
+        // VOCABULARY FUNCTIONS
+        function loadVocabularyPractice() {
+            const content = document.getElementById('vocabContent');
+            const today = new Date().toDateString();
+            const lastVocabDate = localStorage.getItem('lastVocabDate');
+            const hasDonevocabToday = lastVocabDate === today;
+
+            let html = '';
+            if (hasDonevocabToday) {
+                html += '<p style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 20px;">✅ You\'ve already practiced vocabulary today! Come back tomorrow.</p>';
+            }
+
+            html += '<div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px;"><strong>📅 Today\'s 5 Words:</strong> Practice these words daily to earn 1 coupon every 3 consecutive days!</div>';
+
+            todaysVocabulary.forEach((vocab, i) => {
+                let levelEmoji = '🌱';
+                if (vocab.level === 2) levelEmoji = '🌿';
+                if (vocab.level === 3) levelEmoji = '🌳';
+
+                html += '<div class="vocab-word-card">';
+                html += '<div style="display: flex; justify-content: space-between; align-items: center;"><div class="vocab-word">' + vocab.word + '</div><span style="font-size: 1.2em;">' + levelEmoji + '</span></div>';
+                html += '<div class="vocab-meaning"><strong>Meaning:</strong> ' + vocab.meaning + '</div>';
+                html += '<div class="vocab-usage"><strong>Usage:</strong> "' + vocab.usage + '"</div>';
+                html += '<button class="btn-pronounce" onclick="pronounceWord(\'' + vocab.word + '\')">🔊 Hear Pronunciation</button>';
+                html += '</div>';
+            });
+
+            if (!hasDonevocabToday) {
+                html += '<button class="btn btn-primary" style="width: 100%;" onclick="startVocabQuiz()">🎯 Start Spelling Quiz</button>';
+            }
+            content.innerHTML = html;
+        }
+
+        function pronounceWord(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function startVocabQuiz() {
+            currentVocabQuizIndex = 0;
+            const today = new Date().toDateString();
+            localStorage.setItem('lastVocabDate', today);
+            showVocabQuizQuestion();
+        }
+
+        function showVocabQuizQuestion() {
+            if (currentVocabQuizIndex >= todaysVocabulary.length) {
+                appState.vocabularyDates.push(new Date().toDateString());
+                localStorage.setItem('vocabularyDates', JSON.stringify(appState.vocabularyDates));
+                checkVocabularyCoupons();
+                return;
+            }
+
+            const vocab = todaysVocabulary[currentVocabQuizIndex];
+            const wrongSpellings = generateWrongSpellings(vocab.word);
+            const options = shuffleArray([vocab.word, ...wrongSpellings]);
+
+            let html = '<div style="background: #f0f3ff; padding: 20px; border-radius: 10px; margin: 20px 0;">';
+            html += '<div class="quiz-question">Q' + (currentVocabQuizIndex + 1) + ': How do you spell this word?</div>';
+            html += '<button class="quiz-audio-btn" onclick="pronounceWord(\'' + vocab.word + '\')">🔊 Listen to Word</button>';
+            html += '<div class="quiz-options">';
+
+            options.forEach(opt => {
+                html += '<button class="quiz-option" onclick="checkVocabSpelling(\'' + opt + '\', \'' + vocab.word + '\')">' + opt + '</button>';
+            });
+
+            html += '</div></div>';
+            document.getElementById('vocabContent').innerHTML = html;
+        }
+
+        function generateWrongSpellings(word) {
+            const wrongSpellings = [];
+
+            // Generate 2 wrong spellings by swapping characters or changing letters
+            // Wrong spelling 1: Change last letter
+            const chars = word.split('');
+            if (chars.length > 1) {
+                const wrong1 = [...chars];
+                const randomIdx = Math.floor(Math.random() * chars.length);
+                wrong1[randomIdx] = String.fromCharCode(wrong1[randomIdx].charCodeAt(0) + 1);
+                wrongSpellings.push(wrong1.join(''));
+            }
+
+            // Wrong spelling 2: Duplicate a letter
+            const wrong2 = [...chars];
+            if (chars.length > 2) {
+                const idx = Math.floor(Math.random() * (chars.length - 1));
+                wrong2.splice(idx, 0, chars[idx]);
+                wrongSpellings.push(wrong2.join(''));
+            } else {
+                wrongSpellings.push(word + 'e');
+            }
+
+            return wrongSpellings.length >= 2 ? wrongSpellings : [word + 'e', word + 'a'];
+        }
+
+        function checkVocabSpelling(selected, correct) {
+            let html = '<div style="background: #f0f3ff; padding: 20px; border-radius: 10px; margin: 20px 0;">';
+            if (selected === correct) {
+                html += '<div style="background: #d4edda; padding: 15px; border-radius: 10px; color: #155724;"><strong>✅ Correct!</strong> ' + selected + ' is spelled correctly!</div>';
+            } else {
+                html += '<div style="background: #f8d7da; padding: 15px; border-radius: 10px; color: #721c24;"><strong>❌ Incorrect.</strong> The correct spelling is: <strong>' + correct + '</strong></div>';
+            }
+            html += '<button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="moveToNextVocab()">Next Word →</button>';
+            html += '</div>';
+            document.getElementById('vocabContent').innerHTML = html;
+        }
+
+        function moveToNextVocab() {
+            currentVocabQuizIndex++;
+            showVocabQuizQuestion();
+        }
+
+        function checkVocabularyCoupons() {
+            const today = new Date();
+            const todayStr = today.toDateString();
+            let consecutiveDays = 1;
+
+            for (let i = appState.vocabularyDates.length - 1; i >= 0; i--) {
+                const dateStr = appState.vocabularyDates[i];
+                const date = new Date(dateStr);
+                const expectedDate = new Date(today);
+                expectedDate.setDate(expectedDate.getDate() - consecutiveDays);
+
+                if (date.toDateString() === expectedDate.toDateString()) {
+                    consecutiveDays++;
+                } else {
+                    break;
+                }
+            }
+
+            if (consecutiveDays % 3 === 0) {
+                appState.couponsEarned++;
+                localStorage.setItem('couponsEarned', appState.couponsEarned.toString());
+                alert('🎉 Great job! You earned 1 coupon for ' + consecutiveDays + ' consecutive days of vocabulary practice!');
+                updateLevels();
+            }
+
+            loadVocabularyPractice();
+        }
+
+        // WRITING PRACTICE FUNCTIONS
+        function loadWritingPractice() {
+            const content = document.getElementById('writingContent');
+            let html = '<form id="essayForm" onsubmit="submitEssay(event)">';
+
+            html += '<div class="form-group">';
+            html += '<label for="essayTitle">Essay Title:</label>';
+            html += '<input type="text" id="essayTitle" placeholder="e.g., My Summer Holiday" required>';
+            html += '</div>';
+
+            html += '<div class="form-group">';
+            html += '<label for="essayLength">Expected Length:</label>';
+            html += '<select id="essayLength" required>';
+            html += '<option value="">Select length...</option>';
+            html += '<option value="short">Short (50-100 words)</option>';
+            html += '<option value="medium">Medium (100-300 words)</option>';
+            html += '<option value="long">Long (300+ words)</option>';
+            html += '</select>';
+            html += '</div>';
+
+            html += '<div class="form-group">';
+            html += '<label for="essayText">Your Essay:</label>';
+            html += '<textarea id="essayText" placeholder="Type or paste your essay here..." required></textarea>';
+            html += '</div>';
+
+            html += '<button type="submit" class="btn btn-primary" style="width: 100%;">📝 Get AI Feedback</button>';
+            html += '</form>';
+
+            content.innerHTML = html;
+        }
+
+        function submitEssay(e) {
+            e.preventDefault();
+            const title = document.getElementById('essayTitle').value;
+            const length = document.getElementById('essayLength').value;
+            const text = document.getElementById('essayText').value;
+
+            const wordCount = text.trim().split(/\s+/).length;
+            const sentenceCount = text.split(/[.!?]+/).filter(s => s.trim()).length;
+            const avgWordPerSentence = Math.round(wordCount / sentenceCount);
+
+            const feedback = generateEssayFeedback(text, wordCount, avgWordPerSentence);
+
+            let html = '<div class="feedback-box">';
+            html += '<h3>📝 Essay Feedback for: "' + title + '"</h3>';
+
+            html += '<div class="feedback-section">';
+            html += '<div class="feedback-section-title">📊 Writing Statistics</div>';
+            html += '<div class="feedback-item">Word Count: <strong>' + wordCount + ' words</strong> (' + length + ' expected)</div>';
+            html += '<div class="feedback-item">Sentences: <strong>' + sentenceCount + '</strong></div>';
+            html += '<div class="feedback-item">Average Words per Sentence: <strong>' + avgWordPerSentence + '</strong></div>';
+            html += '</div>';
+
+            html += '<div class="feedback-section">';
+            html += '<div class="feedback-section-title">✅ Strengths</div>';
+            feedback.strengths.forEach(s => {
+                html += '<div class="feedback-item">• ' + s + '</div>';
+            });
+            html += '</div>';
+
+            html += '<div class="feedback-section">';
+            html += '<div class="feedback-section-title">📈 Areas for Improvement</div>';
+            feedback.improvements.forEach(i => {
+                html += '<div class="feedback-item">• ' + i + '</div>';
+            });
+            html += '</div>';
+
+            html += '<button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="loadWritingPractice()">← Write Another Essay</button>';
+            html += '</div>';
+
+            document.getElementById('writingContent').innerHTML = html;
+        }
+
+        function generateEssayFeedback(text, wordCount, avgWords) {
+            const strengths = [];
+            const improvements = [];
+
+            if (text.includes('However') || text.includes('Furthermore') || text.includes('Moreover')) {
+                strengths.push('Good use of transition words to connect ideas');
+            } else {
+                improvements.push('Use transition words like "However", "Furthermore", "Moreover"');
+            }
+
+            if (wordCount >= 50) {
+                strengths.push('Adequate word count for your essay level');
+            } else {
+                improvements.push('Consider expanding your essay with more details');
+            }
+
+            if (avgWords > 10 && avgWords < 20) {
+                strengths.push('Good sentence variety');
+            } else if (avgWords > 20) {
+                improvements.push('Some sentences are quite long - consider breaking them up');
+            } else {
+                improvements.push('Try making some sentences longer to show complex thinking');
+            }
+
+            if (text.includes('I think') || text.includes('In my opinion')) {
+                strengths.push('Clear personal perspective throughout');
+            } else {
+                improvements.push('Make your personal perspective clearer');
+            }
+
+            improvements.push('Proofread for spelling and grammar errors');
+            improvements.push('Ensure every paragraph has a clear main idea');
+
+            return { strengths, improvements };
+        }
+
+        // TEST FUNCTIONS
+        function startDailyTest() {
+            const today = new Date().toDateString();
+            const savedDate = localStorage.getItem('testDate');
+
+            if (savedDate === today) {
+                alert('You already took today\'s test! Come back tomorrow!');
+                return;
+            }
+
+            appState.selectedAnswers = {};
+            appState.hintsUsed = {};
+
+            const mathQs = shuffleArray([...questionBank.math]).slice(0, 25);
+            const readingQs = shuffleArray([...questionBank.reading]).slice(0, 10);
+            const reasoningQs = shuffleArray([...questionBank.reasoning]).slice(0, 10);
+
+            appState.currentTest = [...mathQs, ...readingQs, ...reasoningQs];
+            appState.questionBank = questionBank;
+
+            renderTest();
+            setTimeout(startTimer, 100);
+        }
+
+        function renderTest() {
+            const content = document.getElementById('testContent');
+            if (!appState.currentTest || appState.currentTest.length === 0) {
+                content.innerHTML = '<p style="color:red;">ERROR: No questions</p>';
+                return;
+            }
+
+            content.innerHTML = '<div style="background: #f0f3ff; padding: 20px; border-radius: 10px; margin-bottom: 20px;"><h3>📝 45 Questions</h3><div class="timer" id="timer">45:00</div></div>';
+
+            appState.currentTest.forEach((q, i) => {
+                const div = document.createElement('div');
+                div.className = 'question';
+                let html = '<div class="question-text">Q' + (i + 1) + ': ' + q.q + '</div>';
+                if (q.passage) html += '<div class="passage">📖 ' + q.passage + '</div>';
+                if (q.visual) html += '<div class="visual-box">' + q.visual + '</div>';
+                html += '<button class="btn-hint" onclick="toggleHint(' + i + ')">💡 Get Hint (-0.5 pts)</button>';
+                html += '<div class="hint-box" id="hint-' + i + '">' + (q.hint || 'Think about the problem step by step') + '</div>';
+                html += '<div class="options">';
+                q.opts.forEach(o => {
+                    html += '<button class="option" onclick="selectOption(' + i + ', \'' + o.replace(/'/g, "\\'") + '\')">' + o + '</button>';
+                });
+                html += '</div>';
+                div.innerHTML = html;
+                content.appendChild(div);
+            });
+
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-primary';
+            btn.textContent = '✅ Submit Test';
+            btn.onclick = submitTest;
+            content.appendChild(btn);
+        }
+
+        function toggleHint(i) {
+            appState.hintsUsed[i] = true;
+            const hintBox = document.getElementById('hint-' + i);
+            hintBox.classList.add('show');
+        }
+
+        function startTimer() {
+            let timeLeft = 45 * 60;
+            const timerEl = document.getElementById('timer');
+            if (!timerEl) return;
+            if (timerInterval) clearInterval(timerInterval);
+
+            const updateTimer = () => {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerEl.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
+                timerEl.classList.remove('warning', 'danger');
+                if (timeLeft <= 60) timerEl.classList.add('danger');
+                else if (timeLeft <= 300) timerEl.classList.add('warning');
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+                timeLeft--;
+            };
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function selectOption(i, opt) {
+            appState.selectedAnswers[i] = opt;
+            const questions = document.querySelectorAll('.question');
+            if (questions[i]) {
+                questions[i].querySelectorAll('.option').forEach(el => {
+                    el.classList.remove('selected');
+                    if (el.textContent === opt) el.classList.add('selected');
+                });
+            }
+        }
+
+        function submitTest() {
+            if (timerInterval) clearInterval(timerInterval);
+            let score = 0;
+            let hintsCount = 0;
+
+            appState.currentTest.forEach((q, i) => {
+                if (appState.selectedAnswers[i] === q.ans) score++;
+                if (appState.hintsUsed[i]) hintsCount++;
+            });
+
+            const hintPenalty = hintsCount * 0.5;
+            const finalScore = Math.max(0, score - hintPenalty);
+            const percentage = Math.round((finalScore / appState.currentTest.length) * 100);
+
+            appState.testScores.push(percentage);
+            localStorage.setItem('testScores', JSON.stringify(appState.testScores));
+
+            appState.testsCompleted++;
+            appState.couponsEarned++;
+            localStorage.setItem('testsCompleted', appState.testsCompleted.toString());
+            localStorage.setItem('couponsEarned', appState.couponsEarned.toString());
+            localStorage.setItem('testDate', new Date().toDateString());
+
+            updateLevels();
+            showReview(score, hintsCount, finalScore, percentage);
+        }
+
+        function showReview(score, hintsCount, finalScore, percentage) {
+            const content = document.getElementById('testContent');
+            let html = '<div class="review-container">';
+            html += '<div class="score-summary">';
+            html += '<h2>Test Complete! 🎉</h2>';
+            html += '<p>Raw Score: <span class="score-number">' + score + '/45</span></p>';
+            if (hintsCount > 0) {
+                html += '<p>Hints Used: ' + hintsCount + ' (-' + (hintsCount * 0.5) + ' points)</p>';
+            }
+            html += '<p>Final Score: <span class="score-number">' + Math.round(finalScore) + '/45 (' + percentage + '%)</span></p>';
+            html += '<p style="margin-top: 15px; color: #28a745; font-size: 1.1em;"><strong>✅ +1 Coupon Earned!</strong></p>';
+            html += '<p style="margin-top: 15px; color: #666; font-size: 0.95em;">Total Coupons: ' + appState.couponsEarned + ' | Avg Score: ' + Math.round((appState.testScores.reduce((a,b)=>a+b,0)/appState.testScores.length)) + '%</p>';
+            html += '</div>';
+
+            html += '<h3>📋 Detailed Review</h3>';
+
+            appState.currentTest.forEach((q, i) => {
+                const isCorrect = appState.selectedAnswers[i] === q.ans;
+                html += '<div class="review-question">';
+                html += '<div class="review-q-text">Q' + (i + 1) + ': ' + q.q + '</div>';
+                html += '<div class="review-answer correct-answer">✅ Answer: <strong>' + q.ans + '</strong></div>';
+                if (appState.selectedAnswers[i] && !isCorrect) {
+                    html += '<div class="review-answer your-answer">Your Answer: <strong>' + appState.selectedAnswers[i] + '</strong></div>';
+                }
+                if (q.explanation) {
+                    html += '<div class="explanation-box"><div class="explanation-title">💡 Why?</div><div class="explanation-text">' + q.explanation + '</div></div>';
+                }
+                html += '</div>';
+            });
+
+            html += '<button onclick="location.reload()" class="btn btn-primary" style="width: 100%;">🏠 Back to Home</button>';
+            html += '</div>';
+
+            content.innerHTML = html;
+        }
+
+        function updateLevels() {
+            document.getElementById('testsCompleted').textContent = appState.testsCompleted;
+            document.getElementById('couponsCount').textContent = appState.couponsEarned;
+
+            let avgScore = 0;
+            if (appState.testScores.length > 0) {
+                const sum = appState.testScores.reduce((a, b) => a + b, 0);
+                avgScore = Math.round(sum / appState.testScores.length);
+            }
+            document.getElementById('avgScore').textContent = avgScore;
+
+            const levels = [
+                { threshold: 10, id: 'level1', name: 'Bronze' },
+                { threshold: 25, id: 'level2', name: 'Silver' },
+                { threshold: 35, id: 'level3', name: 'Gold' },
+                { threshold: 50, id: 'level4', name: 'Platinum' }
+            ];
+
+            levels.forEach(level => {
+                const progress = Math.min(100, (appState.couponsEarned / level.threshold) * 100);
+                document.getElementById(level.id + '-fill').style.width = progress + '%';
+
+                if (appState.couponsEarned >= level.threshold && !appState.coupons.find(c => c.level === level.name)) {
+                    const coupon = {
+                        level: level.name,
+                        code: level.name.toUpperCase() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase()
+                    };
+                    appState.coupons.push(coupon);
+                    localStorage.setItem('coupons', JSON.stringify(appState.coupons));
+                    alert('🎉 ' + level.name + ' Level Achieved!\nCoupon: ' + coupon.code);
+                }
+            });
+
+            const currentLevelName = appState.couponsEarned >= 50 ? 'Platinum' :
+                                    appState.couponsEarned >= 35 ? 'Gold' :
+                                    appState.couponsEarned >= 25 ? 'Silver' :
+                                    appState.couponsEarned >= 10 ? 'Bronze' : 'Beginner';
+            document.getElementById('currentLevel').textContent = currentLevelName;
+
+            updateTestHistory();
+        }
+
+        function updateTestHistory() {
+            const historyContent = document.getElementById('historyContent');
+            if (!historyContent) return;
+
+            if (appState.testScores.length === 0) {
+                historyContent.innerHTML = '<p style="color: #999; font-size: 1.1em; text-align: center; margin-top: 30px;">No tests completed yet. Start your first test!</p>';
+                return;
+            }
+
+            let html = '<div style="background: #e3f2fd; padding: 20px; border-radius: 10px; margin-bottom: 20px;">';
+            html += '<h3>📈 Summary</h3>';
+            html += '<p>Total Tests: <strong>' + appState.testScores.length + '</strong></p>';
+
+            const avgScore = Math.round(appState.testScores.reduce((a, b) => a + b, 0) / appState.testScores.length);
+            const bestScore = Math.max(...appState.testScores);
+            const worstScore = Math.min(...appState.testScores);
+
+            html += '<p>Average Score: <strong>' + avgScore + '%</strong></p>';
+            html += '<p>Best Score: <strong>' + bestScore + '%</strong></p>';
+            html += '<p>Lowest Score: <strong>' + worstScore + '%</strong></p>';
+            html += '</div>';
+
+            html += '<h3>All Results</h3>';
+            html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">';
+
+            appState.testScores.forEach((score, index) => {
+                let bgColor = '#d4edda';
+                let borderColor = '#28a745';
+
+                if (score < 60) {
+                    bgColor = '#f8d7da';
+                    borderColor = '#dc3545';
+                } else if (score < 75) {
+                    bgColor = '#fff3cd';
+                    borderColor = '#ffc107';
+                }
+
+                html += '<div style="background: ' + bgColor + '; border-left: 4px solid ' + borderColor + '; padding: 15px; border-radius: 8px; text-align: center;">';
+                html += '<div style="font-size: 0.9em; color: #666;">Test ' + (index + 1) + '</div>';
+                html += '<div style="font-size: 1.8em; font-weight: bold; color: ' + borderColor + ';">' + score + '%</div>';
+                html += '</div>';
+            });
+
+            html += '</div>';
+            historyContent.innerHTML = html;
+        }
+
+        function updateCouponsDisplay() {
+            const display = document.getElementById('couponsDisplay');
+            const list = document.getElementById('couponsList');
+
+            let html = '<p style="margin-bottom: 15px; font-size: 1.1em;">Total Coupons: <strong>' + appState.couponsEarned + '</strong></p>';
+
+            if (appState.coupons.length === 0) {
+                html += '<p>Earn 10 coupons to reach Bronze level!</p>';
+            } else {
+                appState.coupons.forEach(c => {
+                    html += '<div class="coupon">🎁 ' + c.level + '<br>' + c.code + '</div>';
+                });
+            }
+            display.innerHTML = html;
+            list.innerHTML = html;
+        }
+
+        function shuffleArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // Initialize
+        updateLevels();
+        updateCouponsDisplay();
+        updateTestHistory();
+
+        const examDate = new Date(2026, 9, 18);
+        const today = new Date();
+        const daysLeft = Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
+        document.getElementById('daysLeft').textContent = Math.max(0, daysLeft);
+    </script>
+</body>
+</html>
